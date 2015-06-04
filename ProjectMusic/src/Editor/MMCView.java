@@ -41,7 +41,7 @@ public abstract class MMCView extends JFrame {
 	private JButton SaveAs = new JButton("Save As");
 	private JButton Piano = new JButton("Piano");
 	private JButton Guitar = new JButton("Guitar");
-	private JButton Other = new JButton("Accordian");
+	private JButton Other = new JButton("Flute");
 	private JButton About = new JButton("About");
 
 	// Other Buttons

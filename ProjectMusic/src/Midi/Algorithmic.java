@@ -34,7 +34,7 @@ public class Algorithmic extends Composition {
 			instrument = "I[Guitar]";
 			break;
 		default:
-			instrument = "I[Accordian]";
+			instrument = "I[Flute]";
 			break;
 		}
 		for (int i = 0; i < k; i++) {

@@ -34,7 +34,7 @@ public class AtonalMMCController {
 		theView.guitarButton(new ControllerUtils.instrButtonListener(theView,
 				theModel, "Guitar"));
 		theView.otherButton(new ControllerUtils.instrButtonListener(theView,
-				theModel, "Accordian"));
+				theModel, "Flute"));
 		theView.playButton(new ControllerUtils.playButtonListener(theView,
 				theModel, p));
 		theView.aboutButton(new ControllerUtils.aboutButtonListener());
