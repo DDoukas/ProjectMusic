@@ -1,21 +1,17 @@
 package Player;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import Midi.Algorithmic;
-import Midi.Atonal;
 import Midi.Composition;
-import Midi.Free;
 import Midi.Note;
 
 public class Collection implements Serializable {
@@ -75,7 +71,14 @@ public class Collection implements Serializable {
 			}
 		}
 		br.close();*/
-		
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+					new File(k)));
+			Collection c = (Collection) ois.readObject();
+			collection.addAll(c.collection);
+			ois.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-
 }
