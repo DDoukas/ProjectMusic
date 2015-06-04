@@ -1,9 +1,12 @@
 package Player;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,14 +47,14 @@ public class Collection implements Serializable {
 	}
 
 	public void saveCollection() throws FileNotFoundException {
-		PrintWriter writer = new PrintWriter(name + ".txt");
-		for (int i = 0; i <= collection.size() - 1; i++) {
-			writer.println(collection.get(i).getNotes() + ","
-					+ collection.get(i).getOnomSinth() + ","
-					+ collection.get(i).getCompName() + ","
-					+ collection.get(i).getEidos());
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(new File(name + ".clxn")));
+			oos.writeObject(this);
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		writer.close();
 	}
 
 	public void openCollection(String k) throws IOException {
@@ -72,6 +75,7 @@ public class Collection implements Serializable {
 			}
 		}
 		br.close();*/
+		
 	}
 
 }
