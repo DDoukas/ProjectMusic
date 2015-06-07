@@ -34,8 +34,8 @@ public class FreeMMCController {
 		theView.playButton(new ControllerUtils.playButtonListener(theView,
 				theModel, p));
 		theView.aboutButton(new ControllerUtils.aboutButtonListener());
-
 		theView.playNote(new playNoteListener());
+		theView.restButton(new ControllerUtils.restButtonListener(theView, theModel));
 	}
 
 	private class playNoteListener implements ActionListener {

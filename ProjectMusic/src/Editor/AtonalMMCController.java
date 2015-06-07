@@ -38,6 +38,7 @@ public class AtonalMMCController {
 		theView.playButton(new ControllerUtils.playButtonListener(theView,
 				theModel, p));
 		theView.aboutButton(new ControllerUtils.aboutButtonListener());
+		theView.restButton(new ControllerUtils.restButtonListener(theView, theModel));
 
 		theView.playNote(new playNoteListener());
 		theView.reflectButton(new reflectButtonListener());

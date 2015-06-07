@@ -2,18 +2,23 @@ package Player;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import Midi.playMusic;
+import Midi.Composition;
 
 public class playerController {
 	private playerView theView;
 	private playerModel theModel = new playerModel();
-	private playMusic theMusic = new playMusic();
+	private playCollection player = new playCollection();
 
 	public playerController(playerView theView, playerModel theModel) {
 
@@ -22,121 +27,184 @@ public class playerController {
 
 		this.theView.newCollection(new newCollectionListener());
 		this.theView.addFileButton(new addFileListener());
-		this.theView.addFolderButton(new addFolderListener());
 		this.theView.openButton(new openListener());
 		this.theView.saveButton(new saveListener());
-		this.theView.defaulButton(new defaulListener());
+		this.theView.saveAsButton(new saveAsListener());
+		this.theView.defaulButton(new defaultListener());
 		this.theView.shuffleButton(new shuffleListener());
 		this.theView.playButton(new playListener());
 		this.theView.stopButton(new stopListener());
-		this.theView.pauseButton(new pauseListener());
 		this.theView.prevButton(new prevListener());
 		this.theView.nextButton(new nextListener());
+		this.player.setButton(theView.getPlay());
+		this.theView.deleteButton(new deleteListener());
+		this.theView.moveUpButton(new moveUpListener());
+		this.theView.moveDownButton(new moveDownListener());
 	}
 
-	class newCollectionListener implements ActionListener {
+	private class newCollectionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String a = JOptionPane.showInputDialog("Collection Name");
-			theModel.addCollection(a);
-			theView.addCollection(a);
-
-		}
-
-	}
-
-	class addFileListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) {
-			String a = JOptionPane.showInputDialog("File Name");
-			String[] p = null;
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(a));
-				p = theModel.addFile(a, theView.getTabbedPane());
-				br.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			if (a != null && !a.isEmpty()) {
+				Collection c = new Collection(a);
+				theModel.addCollection(c);
+				theView.addCollection(c);
 			}
-			theView.addRo(p[0], p[1], p[2], p[3], theView.getTabbedPane());
+		}
+
+	}
+
+	private class addFileListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser(Composition.compositionsPath);
+
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(
+					"Composition files (*.snthz)", "snthz");
+			fc.setFileFilter(filter);
+
+			if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				Composition c = theModel.addFile(fc.getSelectedFile(),
+						theView.getTabbedPane());
+				theView.addRow(c, theView.getTabbedPane());
+			}
 		}
 	}
 
-	class addFolderListener implements ActionListener {
+	private class openListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser(Collection.collectionsPath);
 
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(
+					"Collection files (*.clxn)", "clxn");
+			fc.setFileFilter(filter);
+
+			if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				try {
+					ObjectInputStream ois = new ObjectInputStream(
+							new FileInputStream(fc.getSelectedFile()));
+					Collection c = (Collection) ois.readObject();
+					ois.close();
+					theModel.addCollection(c);
+					theView.addCollection(c);
+				} catch (ClassNotFoundException | IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 	}
 
-	class openListener implements ActionListener {
+	private class saveListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
+			theModel.saveCollection(theView.getSelectedCollection());
 		}
 	}
 
-	class saveListener implements ActionListener {
+	private class saveAsListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser(Collection.collectionsPath);
 
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(
+					"Collection files (*.clxn)", "clxn");
+			fc.setFileFilter(filter);
+			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				theModel.saveCollectionAs(theView.getSelectedCollection(), fc
+						.getSelectedFile().getPath());
+			}
 		}
 	}
 
-	class defaulListener implements ActionListener {
+	private class defaultListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
+			player.shuffle(false);
 		}
 	}
 
-	class shuffleListener implements ActionListener {
+	private class shuffleListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
+			player.shuffle(true);
 		}
 	}
 
-	class playListener implements ActionListener {
+	private class playListener implements ItemListener {
 
-		public void actionPerformed(ActionEvent e) {
-			// for(int i=theView.getSelRow();i<theView.getRowNumb();i++){
-			int i = theView.getSelRow();
-			theMusic.setRunning(true);
-			// System.out.println(theView.getSelRow());
-			theMusic.setNotes(theModel.getComposition(
-					theView.getSelectedCollection(), i));
-			Thread thread = new Thread(theMusic);
-			thread.start();
-			// }
+		public void itemStateChanged(ItemEvent e) {
+			JToggleButton play = theView.getPlay();
+			if (e.getStateChange() == ItemEvent.SELECTED
+					&& play.getIcon() == playCollection.playIcon) {
+				if (player.isPaused())
+					player.pause(false);
+				else {
+					player.setRunning(true);
+					player.setTable(theView.getSelectedTable());
+					player.setCompositions(theModel.getCompositions(theView
+							.getSelectedCollection()));
+					Thread thread = new Thread(player);
+					thread.start();
+				}
+				theView.getPlay().setIcon(playCollection.pauseIcon);
+			} else {
+				theView.getPlay().setIcon(playCollection.playIcon);
+				player.pause(true);
+			}
 		}
 	}
 
-	class stopListener implements ActionListener {
+	private class stopListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			theMusic.setRunning(false);
+			player.setRunning(false);
 		}
 	}
 
-	class pauseListener implements ActionListener {
+	private class prevListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			// /theMusic.pause();
+			player.previous();
 		}
 	}
 
-	class prevListener implements ActionListener {
+	private class nextListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-
+			player.next();
 		}
 	}
 
-	class nextListener implements ActionListener {
+	private class deleteListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			int x = theView.getTabbedPane();
+			int y = theView.getSelectedRow();
+			theModel.remove(x, y);
+			theView.removeRow(x, y);
+		}
+	}
+	
+	private class moveUpListener implements ActionListener {
 
+		public void actionPerformed(ActionEvent e) {
+			int x = theView.getTabbedPane();
+			int y = theView.getSelectedRow();
+			theModel.moveUp(x, y);
+			theView.moveRowUp(x, y);
+		}
+	}
+	
+	private class moveDownListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			int x = theView.getTabbedPane();
+			int y = theView.getSelectedRow();
+			theModel.moveDown(x, y);
+			theView.moveRowDown(x, y);
 		}
 	}
 }

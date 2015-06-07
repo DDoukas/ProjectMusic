@@ -6,7 +6,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,15 +18,16 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import Midi.playMusic;
+
 public abstract class MMCView extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4046784975718095678L;
-	public static ImageIcon playIcon = new ImageIcon("Resources\\play.png");
-	public static ImageIcon stopIcon = new ImageIcon("Resources\\stop.png");
 
 	private JButton[] noteButtons = new JButton[12];
+	private JButton rest = new JButton("Rest");
 
 	private JLabel valueLbl = new JLabel("Note value");
 	private JList<String> noteValues;
@@ -135,10 +135,10 @@ public abstract class MMCView extends JFrame {
 		Guitar.setBounds(10, 228, 97, 25);
 		Other.setBounds(10, 256, 97, 25);
 		About.setBounds(10, 309, 97, 25);
-		Play.setBounds(373, 309, 64, 64);
+		Play.setBounds(395, 309, 64, 64);
 
 		// Edit file buttons
-		Play.setIcon(playIcon);
+		Play.setIcon(playMusic.playIcon);
 
 		// Set bounds other buttons
 
@@ -146,12 +146,14 @@ public abstract class MMCView extends JFrame {
 		retrograde.setBounds(280, 37, 97, 25);
 		transpose.setBounds(398, 37, 97, 25);
 		reflect.setBounds(517, 37, 97, 25);
+		rest.setBounds(550, 300, 70, 25);
 
 		// edit other buttons
 		doNothing.setBackground(Color.cyan);
 		retrograde.setBackground(Color.cyan);
 		transpose.setBackground(Color.cyan);
 		reflect.setBackground(Color.cyan);
+		rest.setBackground(Color.white);
 		doNothing.setVisible(false);
 		retrograde.setVisible(false);
 		transpose.setVisible(false);
@@ -229,6 +231,7 @@ public abstract class MMCView extends JFrame {
 		mus.add(retrograde);
 		mus.add(reflect);
 		mus.add(transpose);
+		mus.add(rest);
 		// Add notes
 		for (JButton b : noteButtons) {
 			mus.add(b);
@@ -260,9 +263,11 @@ public abstract class MMCView extends JFrame {
 		octave.setBorder(blackline);
 		textArea.setBorder(blackline);
 		textArea2.setBorder(blackline);
+		rest.setBorder(blackline);
+		Play.setBorder(blackline);
 		
 		// other staff edit+add
-		textArea.setBounds(0, 401, 428, 156);
+		textArea.setBounds(10, 401, 418, 156);
 		textArea.setEditable(false);
 		mus.add(textArea);
 		textArea2.setBounds(428, 401, 356, 156);
@@ -324,6 +329,10 @@ public abstract class MMCView extends JFrame {
 
 	public void otherButton(ActionListener listen) {
 		Other.addActionListener(listen);
+	}
+
+	public void restButton(ActionListener listen) {
+		rest.addActionListener(listen);
 	}
 
 	// Getters start
@@ -397,6 +406,10 @@ public abstract class MMCView extends JFrame {
 	
 	public JLabel getOctaveLbl() {
 		return octaveLbl;
+	}
+
+	public JButton getRest() {
+		return rest;
 	}
 	// Getters end
 

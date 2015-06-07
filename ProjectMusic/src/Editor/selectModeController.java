@@ -67,7 +67,7 @@ public class selectModeController {
 	class openButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser fc = new JFileChooser(ControllerUtils.compositionsPath);
+			JFileChooser fc = new JFileChooser(Composition.compositionsPath);
 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(
 					"Composition files (*.snthz)", "snthz");

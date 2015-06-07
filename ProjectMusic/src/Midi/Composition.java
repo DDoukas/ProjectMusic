@@ -14,6 +14,9 @@ public abstract class Composition implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7307941895975216946L;
+	
+	public static String compositionsPath = new java.io.File("Compositions").getAbsolutePath();
+	
 	private ArrayList<Note> notes;
 	private String instr;
 	private String onomsinth;

@@ -2,14 +2,16 @@ package Midi;
 
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
 import org.jfugue.player.Player;
 
-import Editor.MMCView;
-
 public class playMusic implements Runnable {
-	private ArrayList<Note> notes;
+	public static ImageIcon playIcon = new ImageIcon("Resources\\play.png");
+	public static ImageIcon stopIcon = new ImageIcon("Resources\\stop.png");
+	
+	private ArrayList<Note> notes = new ArrayList<Note>();
 	private volatile boolean isRunning = true;
 	private JToggleButton button;
 
@@ -17,16 +19,13 @@ public class playMusic implements Runnable {
 		Player pan = new Player();
 		int i = 0;
 		int k = notes.size();
-		while (isRunning == true) {
-			if (i >= k) {
-				isRunning = false;
-				break;
-			}
+		while (isRunning == true && i < k) {
 			pan.play(notes.get(i).toString());
 			i++;
 		}
-		button.setIcon(MMCView.playIcon);
+		button.setIcon(playIcon);
 		button.setSelected(false);
+		isRunning = false;
 	}
 
 	public void setRunning(boolean b) {
@@ -36,7 +35,7 @@ public class playMusic implements Runnable {
 	public void setNotes(ArrayList<Note> notes) {
 		this.notes = notes;
 	}
-
+	
 	public void setButton(JToggleButton button) {
 		this.button = button;
 	}

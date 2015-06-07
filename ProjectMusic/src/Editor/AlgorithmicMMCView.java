@@ -22,6 +22,7 @@ public class AlgorithmicMMCView extends MMCView {
 		getValueLbl().setVisible(false);
 		getOctaveList().setVisible(false);
 		getOctaveLbl().setVisible(false);
+		getRest().setVisible(false);
 	}
 
 }

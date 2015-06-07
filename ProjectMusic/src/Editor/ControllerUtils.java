@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -15,10 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Midi.Composition;
+import Midi.Note;
 import Midi.playMusic;
 
 public class ControllerUtils {
-	public static String compositionsPath = new java.io.File("Compositions").getAbsolutePath();
 
 	public static class newButtonListener implements ActionListener {
 		private MMCView view;
@@ -44,7 +45,7 @@ public class ControllerUtils {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser fc = new JFileChooser(compositionsPath);
+			JFileChooser fc = new JFileChooser(Composition.compositionsPath);
 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(
 					"Composition files (*.snthz)", "snthz");
@@ -100,16 +101,15 @@ public class ControllerUtils {
 		}
 
 		public void itemStateChanged(ItemEvent e) {
-			p.setRunning(true);
 			if (e.getStateChange() == ItemEvent.SELECTED
-					&& view.getPlay().getIcon() == MMCView.playIcon) {
+					&& view.getPlay().getIcon() == playMusic.playIcon) {
+				p.setRunning(true);
 				p.setNotes(model.getNotes());
 				Thread thread = new Thread(p);
 				thread.start();
-				view.getPlay().setIcon(MMCView.stopIcon);
-			} else {
+				view.getPlay().setIcon(playMusic.stopIcon);
+			} else
 				p.setRunning(false);
-			}
 		}
 
 	}
@@ -131,6 +131,22 @@ public class ControllerUtils {
 			String s = "I[" + instrument + "]";
 			model.setInstr(s);
 			view.writeToTextArea2(s + " ");
+		}
+	}
+	
+	public static class restButtonListener implements ActionListener {
+		private MMCView view;
+		private Composition model;
+
+		public restButtonListener(MMCView view, Composition model) {
+			this.view = view;
+			this.model = model;
+		}
+		public void actionPerformed(ActionEvent e) {
+			Note n = new Note("R", view.getNoteValue(), view.getOctave(), model.getInstr());
+			model.playNote(n);
+			model.addNote(n);
+			view.writeToTextArea2(n.toStringNoInstr() + " ");
 		}
 	}
 }

@@ -40,7 +40,8 @@ public class AtonalRow implements Symmetry, Serializable {
 						n.setNote(a.replace(noteNames[j], noteNames[j + x]));
 						break;
 					} else {
-						n.setNote(a.replace(noteNames[j], noteNames[j + x - 12]));
+						n.setNote(a
+								.replace(noteNames[j], noteNames[j + x - 12]));
 						break;
 					}
 
@@ -77,14 +78,17 @@ public class AtonalRow implements Symmetry, Serializable {
 					} else {
 						int diaf = Math.abs(j - reflkatw);
 						if (j - reflkatw > 0) {
-							n.setNote(a.replace(noteNames[j], noteNames[Math.abs(j - diaf - diaf)]));
+							n.setNote(a.replace(noteNames[j],
+									noteNames[Math.abs(j - diaf - diaf)]));
 							break;
 						} else {
 							if (j + diaf + diaf > 11) {
-								n.setNote(a.replace(noteNames[j], noteNames[j + diaf + diaf - 12]));
+								n.setNote(a.replace(noteNames[j], noteNames[j
+										+ diaf + diaf - 12]));
 								break;
 							} else {
-								n.setNote(a.replace(noteNames[j], noteNames[j + diaf + diaf]));
+								n.setNote(a.replace(noteNames[j], noteNames[j
+										+ diaf + diaf]));
 								break;
 							}
 						}

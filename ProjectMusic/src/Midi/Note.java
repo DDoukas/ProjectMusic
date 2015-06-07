@@ -9,13 +9,16 @@ public class Note implements Serializable {
 	private static final long serialVersionUID = 1676281611865484867L;
 	private String note;
 	private String value;
-	private int octave = 5;
+	private String octave;
 	private String instrument;
 
 	public Note(String note, String value, int octave, String instrument) {
 		this.note = note;
 		this.value = value;
-		this.octave = octave;
+		if (!note.equals("R"))
+			this.octave = String.valueOf(octave);
+		else
+			this.octave = "";
 		this.instrument = instrument;
 	}
 
@@ -39,7 +42,7 @@ public class Note implements Serializable {
 		return value;
 	}
 
-	public int getOctave() {
+	public String getOctave() {
 		return octave;
 	}
 

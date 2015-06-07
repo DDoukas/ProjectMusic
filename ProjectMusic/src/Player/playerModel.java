@@ -1,16 +1,14 @@
 package Player;
 
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import Midi.Algorithmic;
-import Midi.Atonal;
-import Midi.Free;
-import Midi.Note;
+import Midi.Composition;
 
 public class playerModel {
 	private List<Collection> collections = new ArrayList<Collection>();
@@ -23,18 +21,8 @@ public class playerModel {
 		collections.add(x);
 	}
 
-	/**
-	 * Contractor που δέχεται ένα collection
-	 * 
-	 * @param collection
-	 *            το Collection σε λιστα
-	 */
-	public playerModel(Collection collection) {
-	}
-
-	public void addCollection(String name) {
-		Collection x = new Collection(name);
-		collections.add(x);
+	public void addCollection(Collection c) {
+		collections.add(c);
 	}
 
 	/**
@@ -43,63 +31,40 @@ public class playerModel {
 	 * @param x
 	 *            Η θέση του αρχείου στον δίσκο
 	 * @return
-	 * @throws IOException
+	 *
 	 */
-	public String[] addFile(String x, int tab) throws IOException {
-		String k;
-		String[] p = null;
-		/*BufferedReader br = new BufferedReader(new FileReader(x));
-		k = br.readLine();
-
-		p = k.split(",");
-		k = p[3];
-
-		if (k.equals("Free")) {
-			Free tragoudi = new Free(p[0], p[1], p[2], p[3]);
-			tragoudi.open(x);
-			collections.get(tab).addSong(tragoudi);
-		} else if (k.equals("Atonal")) {
-			Atonal tragoudi = new Atonal(p[0], p[1], p[2], p[3]);
-			collections.get(tab).addSong(tragoudi);
-
-		} else {
-			Algorithmic tragoudi = new Algorithmic(p[0], p[1], p[2], p[3]);
-			collections.get(tab).addSong(tragoudi);
-
+	public Composition addFile(File f, int tab) {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(f));
+			Composition c = (Composition) ois.readObject();
+			ois.close();
+			collections.get(tab).addSong(c);
+			return c;
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		br.close();*/
-		
-		
-		return p;
-	}
-
-	/**
-	 * Προσθέτει όλα τα άρχεια από έναν φάκελο
-	 * 
-	 * @param x
-	 *            Το path του φακέλου
-	 */
-	public void addFolder(String x) {
-	}
-
-	/**
-	 * Ανοίγει ένα συγκεκριμένο Collection απο τον σκληρό
-	 * 
-	 * @param x
-	 *            Το path του αρχείου
-	 * @throws IOException
-	 */
-	public void openCollection(String x, int tab) throws IOException {
-		collections.get(tab).openCollection(x);
+		return null;
 	}
 
 	/**
 	 * Αποθηκεύει το Collection
 	 * 
-	 * @throws FileNotFoundException
 	 */
-	public void saveCollection(int tab) throws FileNotFoundException {
+	public void saveCollection(int tab) {
 		collections.get(tab).saveCollection();
+	}
+	
+	/**
+	 * Αποθηκεύει το Collection
+	 * 
+	 */
+	public void saveCollectionAs(int tab, String filename) {
+		collections.get(tab).saveCollectionAs(filename);
 	}
 
 	/**
@@ -108,7 +73,8 @@ public class playerModel {
 	 * @param x
 	 *            Η θέση στην λίστα του κομματιου που θα ανέβει
 	 */
-	public void moveUp(int x) {
+	public void moveUp(int x, int y) {
+		collections.get(x).moveSongUp(y);
 	}
 
 	/**
@@ -116,45 +82,35 @@ public class playerModel {
 	 * 
 	 * @param x
 	 */
-	public void moveDown(int x) {
+	public void moveDown(int x, int y) {
+		collections.get(x).moveSongDown(y);
 	}
 
 	/**
 	 * Σβήνει ένα κομμάτι απο την λίστα
 	 * 
 	 * @param x
+	 *            Η θέση της συλλογής
+	 * @param y
 	 *            Η θέση του κομματιού
 	 */
-	public void remove(int x) {
-	}
-
-	/**
-	 * Διακόπτει προσωρινά το κομμάτι
-	 */
-	public void pause() {
-	}
-
-	/**
-	 * Διακόπτει οριστικά το κομμάτι
-	 */
-	public void stop() {
-	}
-
-	/**
-	 * Ξεκινάει το κομμάτι
-	 */
-	public void play() {
+	public void remove(int x, int y) {
+		collections.get(x).deleteSong(y);
 	}
 
 	/**
 	 * Επιστρέφει το Composition της θέσης x
 	 * 
-	 * @param η
+	 * @param x η
 	 *            θέση που θα επιστραφεί.
 	 * @return
 	 */
-	public ArrayList<Note> getComposition(int x, int y) {
-		return collections.get(x).getNotes(y);
+	public List<Composition> getCompositions(int x) {
+		return collections.get(x).getCompositions();
+	}
+
+	public List<Collection> getCollections() {
+		return collections;
 	}
 
 }
