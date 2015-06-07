@@ -1,10 +1,10 @@
 package Midi;
 
 /**
- * Exception, thrown when symmetry actions are executed over atonal rows that
- * contain duplicate or not all the 12 notes
+ * Η κλάση αυτή είναι υποκλάση της Exception και χρησιμεύει στο να κάνει throw
+ * όταν διεργασίες που εκτελούνται στην Symmetry επιτρέψουν την είσοδο
+ * διπλοτύπων ή την μη είσοδο και των 12 νοτών.
  */
-// memo: rwta ama prepei na dwsoume credits kapou
 public class SymmetryActionOnNonValidAtonalRow extends Exception {
 	/**
 	 * 

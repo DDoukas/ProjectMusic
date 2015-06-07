@@ -20,6 +20,12 @@ import javax.swing.table.DefaultTableModel;
 
 import Midi.Composition;
 
+/**
+ * 
+ * H κλάση αυτή είναι υπεύθυνη για την γραφική αναπαράσταση του προγράμματος για
+ * την αναπαραγωγή μουσικών κομματιών και διαχείρισης των μουσικών συλλογών.
+ * 
+ */
 public class playerView extends JFrame {
 	/**
 	 * 
@@ -90,8 +96,6 @@ public class playerView extends JFrame {
 		defaul.setBounds(8, 296, 100, 25);
 		shuffle.setBounds(8, 326, 100, 25);
 
-
-
 		play.setBounds(265, 25, 40, 40);
 		play.setIcon(playCollection.playIcon);
 		stop.setBounds(307, 25, 40, 40);
@@ -142,9 +146,10 @@ public class playerView extends JFrame {
 	public int getSelectedCollection() {
 		return tabbedPane.getSelectedIndex();
 	}
-	
+
 	public void addRow(Composition c, int x) {
-		tabs.get(x).addRow(new Object[] { c.getOnomSinth(), c.getCompName() });
+		tabs.get(x).addRow(
+				new Object[] { c.getArtistName(), c.getCompositionName() });
 	}
 
 	public void removeRow(int x, int y) {
@@ -179,7 +184,7 @@ public class playerView extends JFrame {
 			addRow(comp, getTabbedPane());
 		}
 	}
-	
+
 	public int getTabbedPane() {
 		return tabbedPane.getSelectedIndex();
 	}
@@ -259,5 +264,5 @@ public class playerView extends JFrame {
 	public JTable getSelectedTable() {
 		return tables.get(tabbedPane.getSelectedIndex());
 	}
-	
+
 }

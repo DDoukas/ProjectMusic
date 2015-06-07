@@ -18,23 +18,34 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import Midi.playMusic;
-
+/**
+ * 
+ * H κλάση αυτή είναι αφηρημένη και υπερκλάση των υπόλοιπων κλάσεων που
+ * χρησιμοποιούνται για την σχεδίαση του περιβάλλοντος του προγράμματος. Στην
+ * ουσία, η MMCView σχεδιάζει το γραφικό περιβάλλον ενώ οι υποκλάσεις της
+ * διαχειρίζονται κομμάτια αυτής. Το μοντέλο της MMCView είναι η κλάση
+ * Composition.
+ * 
+ */
 public abstract class MMCView extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4046784975718095678L;
 
+	// Τα κουμπιά με τις νότες
 	private JButton[] noteButtons = new JButton[12];
+	// Το κουμπί της παύσης
 	private JButton rest = new JButton("Rest");
 
-	private JLabel valueLbl = new JLabel("Note value");
+	// Η λίστα επιλογής αξιών (όγδοο, τέταρτο, μίσο, ολόκληρο)
 	private JList<String> noteValues;
-	
-	private JLabel octaveLbl = new JLabel("Octave");
+	private JLabel valueLbl = new JLabel("Note value");
+
+	// Η λίστα επιλογής οκτάβων
 	private JList<String> octave;
-	
+	private JLabel octaveLbl = new JLabel("Octave");
+
 	// File Buttons
 	private JButton New = new JButton("New");
 	private JButton Save = new JButton("Save");
@@ -44,8 +55,10 @@ public abstract class MMCView extends JFrame {
 	private JButton Other = new JButton("Flute");
 	private JButton About = new JButton("About");
 
-	// Other Buttons
+	// Το κουμπί αναπαραγωγής/διακοπής
 	private JToggleButton Play = new JToggleButton();
+
+	// Τα κουμπιά ατονικών πράξεων
 	private JButton doNothing = new JButton("Do Nothing");
 	private JButton retrograde = new JButton("Retrograde");
 	private JButton transpose = new JButton("Transopose");
@@ -53,13 +66,13 @@ public abstract class MMCView extends JFrame {
 
 	/*
 	 * Θα χρειαστούμε μερικά ακόμα JLabel για να εμφανίζονται τα δίαφορα
-	 * χαρακτηριστικά του προγράμματος, οι νότες που έχουν πληκτρολογηθεί κτλ
+	 * χαρακτηριστικά του προγράμματος
 	 */
 	private JLabel Comp = new JLabel("Composition");
 	private JLabel Instr = new JLabel("Instrument");
 
 	/*
-	 * 2-3 Separator τα οποία θα διαχωρίζουν δίαφορα κομμάτια του GUI όπως το
+	 * Separators τα οποία θα διαχωρίζουν δίαφορα κομμάτια του GUI όπως το
 	 * κομμάτι που θα εμφανίζονται οι νότες, ένα κομμάτι που θα εμφανίζονται οι
 	 * επιλογές κτλ
 	 */
@@ -70,18 +83,11 @@ public abstract class MMCView extends JFrame {
 	private JSeparator sepKatwMesi = new JSeparator();
 	private JSeparator sepPanw = new JSeparator();
 
-	/*
-	 * Θα χρειαστούμε 2-3 scrollPane για τα scrollable στοιχεία του πίνακα
-	 */
-	// η μάλλον όχι; private JScrollPane scrollPane;
-
-	// Other stuff
+	// Δείχνει το όνομα της σύνθεσης και του συνθέτη, καθώς και τον τρόπο
+	// επεξεργασίας
 	private JTextArea textArea = new JTextArea();
+	// Δείχνει τις εισόδους που έχει δώσει ο χρήστης
 	private JTextArea textArea2 = new JTextArea();
-
-	/*
-	 * Θα δημιουργει το παράθυρο του Editor
-	 */
 
 	/**
 	 * Αρχικοποιει το παράθυρο του Editor δινοντας μεγάλο μέρος των
@@ -108,17 +114,17 @@ public abstract class MMCView extends JFrame {
 		noteButtons[11] = new JButton("B");
 
 		// Configure note value jlist
-		String s[] = {"Eighth", "Quarter", "Half", "Whole"};
+		String s[] = { "Eighth", "Quarter", "Half", "Whole" };
 		noteValues = new JList<String>(s);
 		noteValues.setSelectedIndex(1);
 		noteValues.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		// Configure octave jlist
-		String[] s2 = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+		String[] s2 = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		octave = new JList<String>(s2);
 		octave.setSelectedIndex(5);
 		octave.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		getContentPane().add(mus);
 		mus.setLayout(null);
 
@@ -159,7 +165,7 @@ public abstract class MMCView extends JFrame {
 		transpose.setVisible(false);
 		reflect.setVisible(false);
 
-		// set bounds notes
+		// set note buttons notes
 		noteButtons[0].setBounds(157, 111, 42, 170);
 		noteButtons[1].setBounds(195, 111, 49, 83);
 		noteButtons[2].setBounds(242, 111, 42, 170);
@@ -176,16 +182,17 @@ public abstract class MMCView extends JFrame {
 		// set note value jlist and jlabel bounds
 		noteValues.setBounds(157, 312, 80, 74);
 		valueLbl.setBounds(167, 274, 80, 55);
-		
+
 		// set octave jlist and jlabel bounds
 		octave.setBounds(695, 112, 50, 182);
 		octaveLbl.setBounds(700, 74, 80, 55);
-		
-		//center jlist text
-		DefaultListCellRenderer renderer = (DefaultListCellRenderer)noteValues.getCellRenderer();  
-		renderer.setHorizontalAlignment(JLabel.CENTER); 
-		renderer = (DefaultListCellRenderer)octave.getCellRenderer();  
-		renderer.setHorizontalAlignment(JLabel.CENTER); 
+
+		// center jlist text
+		DefaultListCellRenderer renderer = (DefaultListCellRenderer) noteValues
+				.getCellRenderer();
+		renderer.setHorizontalAlignment(JLabel.CENTER);
+		renderer = (DefaultListCellRenderer) octave.getCellRenderer();
+		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		// edit notes buttons
 		for (JButton b : noteButtons) {
@@ -195,8 +202,8 @@ public abstract class MMCView extends JFrame {
 			} else
 				b.setBackground(Color.white);
 		}
-		
-		// set bounds Seperators
+
+		// set Seperator bounds
 		sepKoumpia.setBounds(125, -2, 2, 400);
 		sepPanAr.setBounds(0, 172, 127, 2);
 		sepKatAr.setBounds(0, 294, 127, 2);
@@ -240,11 +247,11 @@ public abstract class MMCView extends JFrame {
 		// add note value selection list
 		mus.add(noteValues);
 		mus.add(valueLbl);
-		
+
 		// add octave selection list
 		mus.add(octave);
 		mus.add(octaveLbl);
-		
+
 		// add seperators
 		mus.add(sepKoumpia);
 		mus.add(sepPanAr);
@@ -265,7 +272,7 @@ public abstract class MMCView extends JFrame {
 		textArea2.setBorder(blackline);
 		rest.setBorder(blackline);
 		Play.setBorder(blackline);
-		
+
 		// other staff edit+add
 		textArea.setBounds(10, 401, 418, 156);
 		textArea.setEditable(false);
@@ -282,7 +289,7 @@ public abstract class MMCView extends JFrame {
 	public void writeToTextArea1(String a) {
 		textArea.append(a);
 	}
-	
+
 	public void writeToTextArea2(String a) {
 		textArea2.append(a);
 		String[] b = textArea2.getText().split("\n");// new line after
@@ -290,6 +297,7 @@ public abstract class MMCView extends JFrame {
 			textArea2.append("\n");
 	}
 
+	// Add listener methods start
 	public void newButton(ActionListener listen) {
 		New.addActionListener(listen);
 	}
@@ -375,17 +383,22 @@ public abstract class MMCView extends JFrame {
 	public JLabel getInstrLabel() {
 		return Instr;
 	}
-	
+
+	/**
+	 * 
+	 * @return Επιστρέφει String που δείχνει την αξία που έχει επιλέξει ο
+	 *         χρήστης
+	 */
 	public String getNoteValue() {
 		switch (noteValues.getSelectedIndex()) {
 		case 0:
-			return "i";
+			return "i"; //eighth
 		case 2:
-			return "h";
+			return "h"; //half
 		case 3:
-			return "w";
+			return "w"; //whole
 		default:
-			return "q";
+			return "q"; //quarter
 		}
 	}
 
@@ -400,10 +413,11 @@ public abstract class MMCView extends JFrame {
 	public int getOctave() {
 		return octave.getSelectedIndex();
 	}
+
 	public JList<String> getOctaveList() {
 		return octave;
 	}
-	
+
 	public JLabel getOctaveLbl() {
 		return octaveLbl;
 	}
@@ -411,6 +425,5 @@ public abstract class MMCView extends JFrame {
 	public JButton getRest() {
 		return rest;
 	}
-	// Getters end
 
 }

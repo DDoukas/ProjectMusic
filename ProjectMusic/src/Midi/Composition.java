@@ -9,69 +9,60 @@ import java.util.ArrayList;
 
 import org.jfugue.player.Player;
 
+/**
+ * Aφηρημένη κλάση και υπερκλάση όλων των κλάσεων που συνδέονται με τον τρόπο
+ * σύνθεσης κομματιών
+ * 
+ */
 public abstract class Composition implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7307941895975216946L;
-	
-	public static String compositionsPath = new java.io.File("Compositions").getAbsolutePath();
-	
+
+	public static String compositionsPath = new java.io.File("Compositions")
+			.getAbsolutePath();
+
+	// Η νότες της σύνθεσης με την σειρά που παίχτηκαν
 	private ArrayList<Note> notes;
-	private String instr;
-	private String onomsinth;
-	private String compname = "";
-	private String eidossinthesis;
+
+	private String instrument;
+	private String artistName;
+	private String compositionName = "";
+	private String type; // Μπορεί να είναι "Free", "Atonal" ή "Algorithmic"
 
 	/**
-	 * Constractor που δεν δέχεται ορίσματα και θέτει όλες τις μεταβλητές Null
+	 * Constractor που δεν δέχεται ορίσματα
 	 */
 	public Composition() {
 		this.notes = new ArrayList<Note>();
-		this.instr = "I[Piano]";
-		this.onomsinth = "";
-		this.compname = "";
-	}
-
-	public Composition(ArrayList<Note> notes, String instr, String onomsinth,
-			String compname) {
-		this.notes = notes;
-		this.instr = instr;
-		this.onomsinth = onomsinth;
-		this.compname = compname;
-	}
-
-	public void setNotes(ArrayList<Note> notes) {
-		this.notes = notes;
-	}
-
-	public void setEidos(String k) {
-		this.eidossinthesis = k;
-	}
-
-	public void setInstr(String k) {
-		this.instr = k;
-	}
-
-	public void setOnomSinth(String k) {
-		this.onomsinth = k;
-	}
-
-	public void setCompName(String k) {
-		this.compname = k;
+		this.instrument = "I[Piano]";
+		this.artistName = "";
+		this.compositionName = "";
 	}
 
 	/**
-	 * Αποθηκεύει σε synthz αρχειο την μουσικη που υπαρχει στο στιγμιοτυπο την
+	 * Constructor που δέχεται ορίσματα
+	 */
+	public Composition(ArrayList<Note> notes, String instr, String artistName,
+			String compositionName) {
+		this.notes = notes;
+		this.instrument = instr;
+		this.artistName = artistName;
+		this.compositionName = compositionName;
+	}
+
+	/**
+	 * Αποθηκεύει σε snthz αρχειο την μουσικη που υπαρχει στο στιγμιοτυπο την
 	 * δεδομενη στιγμη με όλες τις λεπτομέρειες με το όνομα που είχε αποθηκευτεί
 	 * νωρίτερα
 	 * 
 	 */
 	public void save() {
-		if (compname.isEmpty()) {
-			compname = "unnamed";
+		if (compositionName.isEmpty()) {
+			compositionName = "unnamed";
 		}
-		saveAs("Compositions\\" + compname + ".snthz");
+		saveAs("Compositions\\" + compositionName + ".snthz");
 	}
 
 	/**
@@ -95,37 +86,25 @@ public abstract class Composition implements Serializable {
 		}
 	}
 
-	public void copyValues(Composition c) {
-		notes = c.notes;
-		instr = c.instr;
-		onomsinth = c.onomsinth;
-		compname = c.compname;
-		eidossinthesis = c.eidossinthesis;
+	/**
+	 * Αντιγράφει τις τιμές μίας άλλης Composition σε εκείνη που καλεί την
+	 * μέθοδο
+	 * 
+	 * @param c
+	 */
+	public void copyValues(Composition other) {
+		notes = other.notes;
+		instrument = other.instrument;
+		artistName = other.artistName;
+		compositionName = other.compositionName;
+		type = other.type;
 	}
 
 	/**
-	 * οι getter
+	 * Αναπαράγει μία νότα n
+	 * 
+	 * @param n
 	 */
-	public ArrayList<Note> getNotes() {
-		return this.notes;
-	}
-
-	public String getInstr() {
-		return this.instr;
-	}
-
-	public String getOnomSinth() {
-		return this.onomsinth;
-	}
-
-	public String getCompName() {
-		return this.compname;
-	}
-
-	public String getEidos() {
-		return this.eidossinthesis;
-	}
-
 	public void playNote(Note n) {
 		Player player = new Player();
 		player.play(n.toString());
@@ -135,6 +114,12 @@ public abstract class Composition implements Serializable {
 		notes.add(n);
 	}
 
+	// getters & setters
+
+	/**
+	 * 
+	 * @return Επιστρέφει ένα String με όλες τις νότες της σύνθεσης
+	 */
 	public String getNotesString() {
 		String s = "";
 		String instr = "";
@@ -150,5 +135,45 @@ public abstract class Composition implements Serializable {
 				s += '\n';
 		}
 		return s;
+	}
+
+	public ArrayList<Note> getNotes() {
+		return this.notes;
+	}
+
+	public String getInstrument() {
+		return this.instrument;
+	}
+
+	public String getArtistName() {
+		return this.artistName;
+	}
+
+	public String getCompositionName() {
+		return this.compositionName;
+	}
+
+	public String getType() {
+		return this.type;
+	}
+
+	public void setNotes(ArrayList<Note> notes) {
+		this.notes = notes;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setInstrument(String k) {
+		this.instrument = k;
+	}
+
+	public void setArtistName(String k) {
+		this.artistName = k;
+	}
+
+	public void setCompositionName(String k) {
+		this.compositionName = k;
 	}
 }

@@ -9,8 +9,12 @@ import javax.swing.JOptionPane;
 import Midi.Atonal;
 import Midi.Note;
 import Midi.SymmetryActionOnNonValidAtonalRow;
-import Midi.playMusic;
 
+/**
+ * Η κλάση αυτή επιφορτίζεται με τη διαχείριση της αλληλεπίδρασης της γραφικής
+ * διεπαφής (AtonalMMCView) με το μοντέλο (Atonal).
+ * 
+ */
 public class AtonalMMCController {
 	private AtonalMMCView theView;
 	private Atonal theModel;
@@ -20,9 +24,9 @@ public class AtonalMMCController {
 		theView = a;
 		theModel = b;
 
-		theView.writeToTextArea1("Composition: " + theModel.getCompName()
-				+ "\n" + "Composer: " + theModel.getOnomSinth()
-				+ "\nMode: Atonal\n");
+		theView.writeToTextArea1("Composition: "
+				+ theModel.getCompositionName() + "\n" + "Composer: "
+				+ theModel.getArtistName() + "\nMode: Atonal\n");
 		theView.writeToTextArea2(theModel.getNotesString());
 
 		p.setButton(theView.getPlay());
@@ -38,7 +42,8 @@ public class AtonalMMCController {
 		theView.playButton(new ControllerUtils.playButtonListener(theView,
 				theModel, p));
 		theView.aboutButton(new ControllerUtils.aboutButtonListener());
-		theView.restButton(new ControllerUtils.restButtonListener(theView, theModel));
+		theView.restButton(new ControllerUtils.restButtonListener(theView,
+				theModel));
 
 		theView.playNote(new playNoteListener());
 		theView.reflectButton(new reflectButtonListener());
@@ -61,7 +66,7 @@ public class AtonalMMCController {
 
 		public void actionPerformed(ActionEvent e) {
 			Note n = new Note(e.getActionCommand(), theView.getNoteValue(),
-					theView.getOctave(), theModel.getInstr());
+					theView.getOctave(), theModel.getInstrument());
 			theModel.playNote(n);
 			theModel.addNote(n);
 			theView.writeToTextArea2(n.toStringNoInstr() + " ");

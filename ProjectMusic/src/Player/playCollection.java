@@ -13,10 +13,15 @@ import org.jfugue.player.Player;
 import Midi.Composition;
 import Midi.Note;
 
+/**
+ * H κλάση αυτή είναι υπεύθυνη για την αναπαραγωγή και οριστική διακοπή της
+ * μουσικής στον player. Λειτουργεί ως thread.
+ * 
+ */
 public class playCollection implements Runnable {
 	public static ImageIcon playIcon = new ImageIcon("Resources\\playS.png");
 	public static ImageIcon pauseIcon = new ImageIcon("Resources\\pause.png");
-	
+
 	private List<Composition> compositions = new ArrayList<Composition>();
 	private volatile boolean isRunning = true;
 	private volatile boolean isPaused = false;
@@ -35,7 +40,7 @@ public class playCollection implements Runnable {
 			int j = 0;
 			ArrayList<Note> notes = compositions.get(i).getNotes();
 			int l = notes.size();
-			
+
 			while (isRunning == true && j < l && !skip) {
 				if (!isPaused) {
 					pan.play(notes.get(j).toString());
@@ -61,7 +66,7 @@ public class playCollection implements Runnable {
 					i = m;
 			} else
 				i++;
-			
+
 			if (skip) {
 				skip = false;
 				skipSteps = 0;
@@ -82,7 +87,7 @@ public class playCollection implements Runnable {
 		if (isRunning)
 			isPaused = b;
 	}
-	
+
 	public void setCompositions(List<Composition> compositions) {
 		this.compositions = compositions;
 	}
@@ -101,7 +106,7 @@ public class playCollection implements Runnable {
 			skipSteps--;
 		}
 	}
-	
+
 	public void next() {
 		if (isRunning) {
 			skip = true;
@@ -112,9 +117,9 @@ public class playCollection implements Runnable {
 	public void setTable(JTable table) {
 		this.table = table;
 	}
-	
+
 	public void shuffle(boolean b) {
 		shuffleIt = b;
 	}
-	
+
 }

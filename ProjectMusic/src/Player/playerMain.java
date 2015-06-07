@@ -1,5 +1,10 @@
 package Player;
 
+/**
+ * 
+ * Περιέχει τη main μέσω της οποίας ξεκινάει το πρόγραμμα.
+ *
+ */
 public class playerMain {
 	public static void main(String args[]) {
 		playerModel theModel = new playerModel();

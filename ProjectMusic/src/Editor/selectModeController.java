@@ -1,5 +1,8 @@
 package Editor;
 
+/**
+ * Συνδέει το μόντελο (selectModeModel) με τη γραφική διεπαφή (selectMode).
+ */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -30,8 +33,8 @@ public class selectModeController {
 
 	class listenForFreeListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			theModel.getFree().setCompName(theView.getComp());
-			theModel.getFree().setOnomSinth(theView.getSinth());
+			theModel.getFree().setCompositionName(theView.getComp());
+			theModel.getFree().setArtistName(theView.getSinth());
 			theModel.freeMode();
 			theView.dispose();
 
@@ -40,8 +43,8 @@ public class selectModeController {
 
 	class listenForAtonalListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			theModel.getAtonal().setCompName(theView.getComp());
-			theModel.getAtonal().setOnomSinth(theView.getSinth());
+			theModel.getAtonal().setCompositionName(theView.getComp());
+			theModel.getAtonal().setArtistName(theView.getSinth());
 			theModel.atonalMode();
 			theView.dispose();
 		}
@@ -57,8 +60,8 @@ public class selectModeController {
 			} catch (NumberFormatException ex) {
 				return;
 			}
-			theModel.getAlgo().setCompName(theView.getComp());
-			theModel.getAlgo().setOnomSinth(theView.getSinth());
+			theModel.getAlgo().setCompositionName(theView.getComp());
+			theModel.getAlgo().setArtistName(theView.getSinth());
 			theModel.algorithmicMode(k);
 			theView.dispose();
 		}
@@ -80,11 +83,12 @@ public class selectModeController {
 					Composition c = (Composition) ois.readObject();
 					ois.close();
 					
-					if (c.getEidos().equals("Free")) {
+					String type = c.getType();
+					if (type.equals("Free")) {
 						theModel.getFree().copyValues(c);
 						theModel.freeMode();
 						theView.dispose();
-					} else if (c.getEidos().equals("Atonal")) {
+					} else if (type.equals("Atonal")) {
 						Atonal a = (Atonal) c;
 						theModel.getAtonal().copyValues(a);
 						theModel.atonalMode();

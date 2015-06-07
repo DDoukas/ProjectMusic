@@ -1,8 +1,6 @@
 package Editor;
 
-/*This class contains Listener based classes designed 
- * to be utilized by Controller type classes
- */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -17,8 +15,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Midi.Composition;
 import Midi.Note;
-import Midi.playMusic;
 
+/**This class contains Listener based classes designed 
+ * to be utilized by Controller type classes
+ */
 public class ControllerUtils {
 
 	public static class newButtonListener implements ActionListener {
@@ -129,7 +129,7 @@ public class ControllerUtils {
 
 		public void actionPerformed(ActionEvent e) {
 			String s = "I[" + instrument + "]";
-			model.setInstr(s);
+			model.setInstrument(s);
 			view.writeToTextArea2(s + " ");
 		}
 	}
@@ -143,7 +143,7 @@ public class ControllerUtils {
 			this.model = model;
 		}
 		public void actionPerformed(ActionEvent e) {
-			Note n = new Note("R", view.getNoteValue(), view.getOctave(), model.getInstr());
+			Note n = new Note("R", view.getNoteValue(), view.getOctave(), model.getInstrument());
 			model.playNote(n);
 			model.addNote(n);
 			view.writeToTextArea2(n.toStringNoInstr() + " ");

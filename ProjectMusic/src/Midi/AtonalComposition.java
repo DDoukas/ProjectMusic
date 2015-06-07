@@ -3,11 +3,21 @@ package Midi;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * 
+ * Η κλάση αυτή υλοποιεί την διεπαφή Symmetry. Ένα στιγμιότυπο της είναι στην
+ * ουσία ένα μουσικό κομμάτι, άρα μια μουσική σύνθεση. Είναι στην ουσία μία
+ * ακολουθία από AtonalRows. Η AtonalComposition δεν αποθηκεύει όλες τις νότες,
+ * παρά μόνο την αρχική seed AtonalRow που δίνει ο χρήστης και τα συγκεκριμένα
+ * actions που εφαρμόζει σε αυτή καθώς και τη σειρά τους.
+ * 
+ */
 public class AtonalComposition implements Symmetry, Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9206954243313753918L;
+	
 	int actions = 0;
 	String[] seq = new String[100000];
 	String[] acperf = new String[100000];
@@ -17,7 +27,6 @@ public class AtonalComposition implements Symmetry, Serializable {
 	public AtonalComposition(ArrayList<Note> seed) {
 		this.seed = new AtonalRow(seed);
 		praxeis[0] = "a";
-		// actions++;
 	}
 
 	public String getAtonalComposition() {
@@ -83,7 +92,6 @@ public class AtonalComposition implements Symmetry, Serializable {
 		int k = (int) Math.pow(2, actions);
 		for (int i = 1; i < k; i++) {
 			String[] a = praxeis[i].split("-");
-			// System.out.println(praxeis[i]);
 			int leng = a.length;
 			AtonalRow p = new AtonalRow(seed.GetAtonalRow());
 			for (int j = 1; j < leng; j++) {

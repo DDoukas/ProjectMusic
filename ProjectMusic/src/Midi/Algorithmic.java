@@ -3,6 +3,10 @@ package Midi;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Η κλάση αυτή είναι υποκλάση της Composition και χρησιμοποιείται για τη
+ * σύνθεση μουσικής παράγωντας τυχαίους φθόγγους.
+ */
 public class Algorithmic extends Composition {
 	/**
 	 * 
@@ -12,18 +16,24 @@ public class Algorithmic extends Composition {
 
 	public Algorithmic() {
 		super();
-		this.setEidos("Algorithmic");
+		this.setType("Algorithmic");
 	}
 
-	public Algorithmic(ArrayList<Note> notes, String instr, String onomsinth,
-			String compname) {
-		super(notes, instr, onomsinth, compname);
+	public Algorithmic(ArrayList<Note> notes, String instrument,
+			String artistName, String compositionName) {
+		super(notes, instrument, artistName, compositionName);
 	}
 
+	/**
+	 * Δημιουργεί μία σύνθεση απο k ψευδοτυχαία αντικείμενα τύπου Note
+	 * 
+	 * @param k
+	 */
 	public void generateNotes(int k) {
 		ar = k;
 		Random generator = new Random();
 		ArrayList<Note> notes = new ArrayList<Note>();
+
 		// Randomize instrument
 		String instrument;
 		switch (generator.nextInt(3)) {
@@ -91,7 +101,7 @@ public class Algorithmic extends Composition {
 				break;
 			case 3:
 			case 4:
-				value = "i"; //eighth
+				value = "i"; // eighth
 				break;
 			default:
 				value = "q";

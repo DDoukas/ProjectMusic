@@ -15,6 +15,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Midi.Composition;
 
+/**
+ * Η κλάση αυτή επιφορτίζεται με τη διαχείριση της αλληλεπίδρασης της γραφικής
+ * διεπαφής (playerView) με το μοντέλο (playerModel).
+ */
 public class playerController {
 	private playerView theView;
 	private playerModel theModel = new playerModel();
@@ -187,7 +191,7 @@ public class playerController {
 			theView.removeRow(x, y);
 		}
 	}
-	
+
 	private class moveUpListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -197,7 +201,7 @@ public class playerController {
 			theView.moveRowUp(x, y);
 		}
 	}
-	
+
 	private class moveDownListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {

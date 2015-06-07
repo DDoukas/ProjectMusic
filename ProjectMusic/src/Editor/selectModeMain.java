@@ -1,5 +1,10 @@
 package Editor;
 
+/**
+ * 
+ * Περιέχει τη main μέσω της οποίας ξεκινάει το πρόγραμμα.
+ *
+ */
 public class selectModeMain {
 
 	public static void main(String[] args) {

@@ -12,14 +12,20 @@ import java.util.List;
 import Midi.Composition;
 import Midi.Note;
 
+/**
+ * 
+ * Ένα στιγμιότυπο της κλάσης αυτής είναι μια συλλογή από συνθέσεις.
+ * 
+ */
 public class Collection implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8695929870480157180L;
 
-	public static String collectionsPath = new java.io.File("Collections").getAbsolutePath();
-	
+	public static String collectionsPath = new java.io.File("Collections")
+			.getAbsolutePath();
+
 	private String name = null;
 	private List<Composition> compositions = new ArrayList<Composition>();
 
@@ -42,7 +48,7 @@ public class Collection implements Serializable {
 	public void deleteSong(int x) {
 		compositions.remove(x);
 	}
-	
+
 	public void moveSongUp(int x) {
 		if (x > 0)
 			Collections.swap(compositions, x, x - 1);
@@ -56,7 +62,7 @@ public class Collection implements Serializable {
 	public void saveCollection() {
 		saveCollectionAs("Collections\\" + name + ".clxn");
 	}
-	
+
 	public void saveCollectionAs(String filename) {
 		try {
 			File f;

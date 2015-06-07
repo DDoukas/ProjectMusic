@@ -10,6 +10,13 @@ import java.util.List;
 
 import Midi.Composition;
 
+/**
+ * 
+ * H κλάση αυτή είναι υπεύθυνη για όλες τις λειτουργίες του προγράμματος
+ * αναπαραγωγής μουσικής και διαχείρισης των μουσικών συλλογών. Περιγράφει τα
+ * δεδομένα, τη συμπεριφορά τους και το σύνολο των κανόνων που τα διέπει.
+ * 
+ */
 public class playerModel {
 	private List<Collection> collections = new ArrayList<Collection>();
 
@@ -31,7 +38,7 @@ public class playerModel {
 	 * @param x
 	 *            Η θέση του αρχείου στον δίσκο
 	 * @return
-	 *
+	 * 
 	 */
 	public Composition addFile(File f, int tab) {
 		try {
@@ -58,7 +65,7 @@ public class playerModel {
 	public void saveCollection(int tab) {
 		collections.get(tab).saveCollection();
 	}
-	
+
 	/**
 	 * Αποθηκεύει το Collection
 	 * 
@@ -101,8 +108,8 @@ public class playerModel {
 	/**
 	 * Επιστρέφει το Composition της θέσης x
 	 * 
-	 * @param x η
-	 *            θέση που θα επιστραφεί.
+	 * @param x
+	 *            η θέση που θα επιστραφεί.
 	 * @return
 	 */
 	public List<Composition> getCompositions(int x) {

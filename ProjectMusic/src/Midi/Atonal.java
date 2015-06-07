@@ -2,6 +2,10 @@ package Midi;
 
 import java.util.ArrayList;
 
+/**
+ * Η κλάση αυτή είναι υποκλάση της Composition και χρησιμοποιείται για τη
+ * σύνθεση ατονικής μουσικής.
+ */
 public class Atonal extends Composition {
 	/**
 	 * 
@@ -12,7 +16,7 @@ public class Atonal extends Composition {
 
 	public Atonal() {
 		super();
-		this.setEidos("Atonal");
+		this.setType("Atonal");
 	}
 
 	public void copyValues(Atonal a) {
@@ -20,6 +24,7 @@ public class Atonal extends Composition {
 		noteNumber = a.noteNumber;
 		prax = a.prax;
 	}
+
 	/**
 	 * Constructor που δέχεται ως όρισμα μια συμβολοσειρά που αποτελείτε
 	 * απαραίτητα απο 12 χαρακτήρες που ο καθένας είναι ξεχωριστός και θα
@@ -31,12 +36,16 @@ public class Atonal extends Composition {
 		noteNumber = 12;
 	}
 
-	public Atonal(ArrayList<Note> notes, String instr, String onomsinth, String compname) {
+	public Atonal(ArrayList<Note> notes, String instr, String onomsinth,
+			String compname) {
 		super(notes, instr, onomsinth, compname);
 	}
 
+	/**
+	 * Προσθέτει μία νότα στη σύνθεση και αυξάνει τον μετρητή noteNumber
+	 */
 	public void addNote(Note n) {
-		super.addNote(n);;
+		super.addNote(n);
 		noteNumber++;
 	}
 

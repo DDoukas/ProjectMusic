@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Η κλάση αυτή υλοποιεί την διεπαφή Symmetry. Ένα στιγμιότυπο της κλάσης είναι
+ * μία ατονική σειρά, άρα μια ακολουθία από φθόγγους (που είναι έγκυρη αν έχει
+ * 12 φθόγγους και κανένα διπλότυπο).
+ */
 public class AtonalRow implements Symmetry, Serializable {
 	/**
 	 * 
@@ -23,6 +28,9 @@ public class AtonalRow implements Symmetry, Serializable {
 	public void doNothing() throws SymmetryActionOnNonValidAtonalRow {
 	}
 
+	/**
+	 * Γίνεται μια ολίσθηση ανάλογα με τον ακέραιο που δίνεται.
+	 */
 	@Override
 	public void transpose(int x) throws SymmetryActionOnNonValidAtonalRow {
 		String[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#",
@@ -50,11 +58,18 @@ public class AtonalRow implements Symmetry, Serializable {
 		}
 	}
 
+	/**
+	 * Αντιστρέφει την σειρά των φθόγγων της σύνθεσης
+	 */
 	@Override
 	public void retrograde() throws SymmetryActionOnNonValidAtonalRow {
 		Collections.reverse(notes);
 	}
 
+	/**
+	 * Ανάκλαση του πολυγώνου γύρω από τον άξονα τουπου ορίζεται από ένα φθόγγο
+	 * x και τον απέναντί του ((x+6) % 12).
+	 */
 	@Override
 	public void reflect(int x) throws SymmetryActionOnNonValidAtonalRow {
 		String[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#",
@@ -97,4 +112,5 @@ public class AtonalRow implements Symmetry, Serializable {
 			}
 		}
 	}
+
 }

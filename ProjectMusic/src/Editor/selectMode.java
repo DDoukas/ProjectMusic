@@ -9,6 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * Το γραφικό περιβάλλον του παραθύρου που εμφανίζεται για την επιλογή είδους
+ * σύνθεσης
+ * 
+ */
 public class selectMode extends JFrame {
 	/**
 	 * 

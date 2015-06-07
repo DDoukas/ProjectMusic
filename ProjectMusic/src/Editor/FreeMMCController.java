@@ -5,8 +5,12 @@ import java.awt.event.ActionListener;
 
 import Midi.Free;
 import Midi.Note;
-import Midi.playMusic;
 
+/**
+ * Η κλάση αυτή επιφορτίζεται με τη διαχείριση της αλληλεπίδρασης της γραφικής
+ * διεπαφής (FreeMMCView) με το μοντέλο (Free).
+ * 
+ */
 public class FreeMMCController {
 	private FreeMMCView theView;
 	private Free theModel;
@@ -16,9 +20,9 @@ public class FreeMMCController {
 		theView = a;
 		theModel = b;
 
-		theView.writeToTextArea1("Composition: " + theModel.getCompName()
-				+ "\n" + "Composer: " + theModel.getOnomSinth()
-				+ "\nMode: Free\n");
+		theView.writeToTextArea1("Composition: "
+				+ theModel.getCompositionName() + "\n" + "Composer: "
+				+ theModel.getArtistName() + "\nMode: Free\n");
 		theView.writeToTextArea2(theModel.getNotesString());
 
 		p.setButton(theView.getPlay());
@@ -35,13 +39,15 @@ public class FreeMMCController {
 				theModel, p));
 		theView.aboutButton(new ControllerUtils.aboutButtonListener());
 		theView.playNote(new playNoteListener());
-		theView.restButton(new ControllerUtils.restButtonListener(theView, theModel));
+		theView.restButton(new ControllerUtils.restButtonListener(theView,
+				theModel));
 	}
 
 	private class playNoteListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			Note n = new Note(e.getActionCommand(), theView.getNoteValue(), theView.getOctave(), theModel.getInstr());
+			Note n = new Note(e.getActionCommand(), theView.getNoteValue(),
+					theView.getOctave(), theModel.getInstrument());
 			theModel.playNote(n);
 			theModel.addNote(n);
 			theView.writeToTextArea2(n.toStringNoInstr() + " ");

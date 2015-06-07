@@ -1,5 +1,10 @@
 package Editor;
 
+/**
+ * 
+ * Το μοντέλο του παραθύρου που εμφανίζεται για την επιλογή είδους σύνθεσης
+ * 
+ */
 public class selectModeModel {
 	private FreeMMCView freeView = new FreeMMCView();
 	private Midi.Free free = new Midi.Free();
@@ -40,5 +45,5 @@ public class selectModeModel {
 	public Midi.Algorithmic getAlgo() {
 		return algo;
 	}
-	
+
 }

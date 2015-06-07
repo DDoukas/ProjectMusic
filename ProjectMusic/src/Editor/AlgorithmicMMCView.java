@@ -9,6 +9,10 @@ public class AlgorithmicMMCView extends MMCView {
 	 */
 	private static final long serialVersionUID = -4432463298068785956L;
 
+	/**
+	 * Κατασκευαστής που καλεί την super και απενεργοποιεί ή κρύβει γραφικά
+	 * τμηματα που δεν χρησιμοποιούνται
+	 */
 	public AlgorithmicMMCView() {
 		super();
 		for (JButton b : getNoteButtons()) {
