@@ -26,7 +26,7 @@ public class Collection implements Serializable {
 	public static String collectionsPath = new java.io.File("Collections")
 			.getAbsolutePath();
 
-	private String name = null;
+	private String name;
 	private List<Composition> compositions = new ArrayList<Composition>();
 
 	public Collection(String name) {

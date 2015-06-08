@@ -17,8 +17,8 @@ public class AtonalComposition implements Symmetry, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 9206954243313753918L;
-	
-	int actions = 0;
+
+	int actions = 0; // Το πλήθος των πράξεων
 	String[] seq = new String[100000];
 	String[] acperf = new String[100000];
 	String[] praxeis = new String[100000];
@@ -27,10 +27,6 @@ public class AtonalComposition implements Symmetry, Serializable {
 	public AtonalComposition(ArrayList<Note> seed) {
 		this.seed = new AtonalRow(seed);
 		praxeis[0] = "a";
-	}
-
-	public String getAtonalComposition() {
-		return null;
 	}
 
 	@Override
@@ -101,12 +97,10 @@ public class AtonalComposition implements Symmetry, Serializable {
 				}
 				if (a[j].equals("retrograde")) {
 					seed.retrograde();
-
 				}
 				if (a[j].contains("transpose")) {
 					String[] numb = a[j].split(",");
 					seed.transpose(Integer.parseInt(numb[1]));
-
 				}
 				if (a[j].contains("reflect")) {
 					String[] numb = a[j].split(",");

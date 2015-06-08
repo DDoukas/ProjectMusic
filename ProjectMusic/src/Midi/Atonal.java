@@ -81,7 +81,6 @@ public class Atonal extends Composition {
 	public void transpose(int x) throws SymmetryActionOnNonValidAtonalRow {
 		prax.transpose(x);
 		this.setNotes(prax.getMusic());
-
 	}
 
 	public int getNoteNumber() {
